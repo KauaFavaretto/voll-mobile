@@ -3,7 +3,7 @@ import Logo from './assets/Logo.png'
 import { TouchableOpacity } from 'react-native';
 import { Botao } from './componentes/Botao';
 import { EntradaTexto } from './componentes/EntradaTexto';
-import { Titulo } from './componentes/Titulo';
+import { Titulo } from './componentes/titulo';
 import { useEffect, useState } from 'react';
 import { fazerLogin } from './servicos/AutenticacaoServico';
 import AsyncStorage from '@react-native-async-storage/async-storage';
