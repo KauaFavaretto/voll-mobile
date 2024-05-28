@@ -10,28 +10,43 @@ import { cadastrarPaciente } from './servicos/PacienteServico';
 export default function Cadastro({ navigation }: any) {
   const [numSecao, setNumSecao] = useState(0);
   const [dados, setDados] = useState({} as any);
-  const [planos, setPlanos] = useState([] as number[])
-  const toast = useToast()
+  const [planos, setPlanos] = useState([] as number[]);
+  const toast = useToast();
+
+  function camposPreenchidos() {
+    const campos = secoes[numSecao]?.entradaTexto || [];
+    for (const campo of campos) {
+      if (!dados[campo.name]) {
+        return false;
+      }
+    }
+    return true;
+  }
 
   function avancarSecao() {
-    if (numSecao < secoes.length - 1) {
-      setNumSecao(numSecao + 1)
-    }
-    else {
-      console.log(dados)
-      console.log(planos)
-      cadastrar()
+    if (camposPreenchidos()) {
+      if (numSecao < secoes.length - 1) {
+        setNumSecao(numSecao + 1);
+      } else {
+        cadastrar();
+      }
+    } else {
+      toast.show({
+        title: 'Erro ao avançar',
+        description: 'Preencha todos os campos antes de continuar',
+        backgroundColor: 'red.500',
+      });
     }
   }
 
   function voltarSecao() {
     if (numSecao > 0) {
-      setNumSecao(numSecao - 1)
+      setNumSecao(numSecao - 1);
     }
   }
 
   function atualizarDados(id: string, valor: string) {
-    setDados({ ...dados, [id]: valor })
+    setDados({ ...dados, [id]: valor });
   }
 
   async function cadastrar() {
@@ -51,22 +66,21 @@ export default function Cadastro({ navigation }: any) {
       possuiPlanoSaude: planos.length > 0,
       planosSaude: planos,
       imagem: dados.imagem
-    })
+    });
 
     if (resultado) {
-      toast.show({
-        title: 'Cadastro realizado com sucesso',
-        description: 'Você já pode fazer login',
-        backgroundColor: 'green.500',
-      })
-      navigation.replace('Login');
-    }
-    else {
       toast.show({
         title: 'Erro ao cadastrar',
         description: 'Verifique os dados e tente novamente',
         backgroundColor: 'red.500',
-      })
+      });
+    } else {
+      toast.show({
+        title: 'Cadastro realizado com sucesso',
+        description: 'Você já pode fazer login',
+        backgroundColor: 'green.500',
+      });
+      navigation.replace('Login');
     }
   }
 
@@ -86,7 +100,7 @@ export default function Cadastro({ navigation }: any) {
                 placeholder={entrada.placeholder}
                 key={entrada.id}
                 secureTextEntry={entrada.secureTextEntry}
-                value={dados[entrada.name]}
+                value={dados[entrada.name] || ''}
                 onChangeText={(text) => atualizarDados(entrada.name, text)}
               />
             )
@@ -106,10 +120,10 @@ export default function Cadastro({ navigation }: any) {
                 onChange={() => {
                   setPlanos((planosAnteriores) => {
                     if (planosAnteriores.includes(checkbox.id)) {
-                      return planosAnteriores.filter((id) => id !== checkbox.id)
+                      return planosAnteriores.filter((id) => id !== checkbox.id);
                     }
-                    return [...planosAnteriores, checkbox.id]
-                  })
+                    return [...planosAnteriores, checkbox.id];
+                  });
                 }}
                 isChecked={planos.includes(checkbox.id)}
               >
@@ -120,7 +134,7 @@ export default function Cadastro({ navigation }: any) {
       </Box>
       {numSecao > 0 && <Botao onPress={() => voltarSecao()} bgColor="gray.400">Voltar</Botao>}
       <Botao onPress={() => avancarSecao()} mt={4} mb={20}>
-        {numSecao == 2 ? 'Finalizar' : 'Avancar'}
+        {numSecao == 2 ? 'Finalizar' : 'Avançar'}
       </Botao>
     </ScrollView>
   );
