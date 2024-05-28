@@ -93,35 +93,35 @@ const secoes = [
         entradaTexto: [],
         checkbox: [
             {
-                id: 1,
+                id: 0,
                 value: 'Sulamerica'
             },
             {
-                id: 2,
+                id: 1,
                 value: 'Unimed'
             },
             {
-                id: 3,
+                id: 2,
                 value: 'Bradesco'
             },
             {
-                id: 4,
+                id: 3,
                 value: 'Amil'
             },
             {
-                id: 5,
+                id: 4,
                 value: 'Biosaúde'
             },
             {
-                id: 6,
+                id: 5,
                 value: 'Biovida'
             },
             {
-                id: 7,
+                id: 6,
                 value: 'Outros'
             },
             {
-                id: 8,
+                id: 7,
                 value: 'Não tenho plano'
             }
         ]
