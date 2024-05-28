@@ -21,8 +21,19 @@ export default function Cadastro({ navigation }: any) {
       }
     }
 
-    if (numSecao === 2 && planos.length === 0) {
-      return false;
+    if (numSecao === 3) {
+      const checkboxes = secoes[3]?.checkbox || [];
+      let algumCheckboxMarcado = false;
+      for (const checkbox of checkboxes) {
+        if (planos.includes(checkbox.id)) {
+          algumCheckboxMarcado = true;
+          break;
+        }
+      }
+
+      if (!algumCheckboxMarcado) {
+        return false;
+      }
     }
 
     return true;
