@@ -37,8 +37,7 @@ export default function Cadastro({ navigation }: any) {
       }
     } else {
       toast.show({
-        title: 'Erro ao avançar',
-        description: 'Selecione pelo menos um plano antes de continuar',
+        description: 'Selecione um plano',
         backgroundColor: 'red.500',
       });
     }
