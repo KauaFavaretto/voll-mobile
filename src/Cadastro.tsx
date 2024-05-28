@@ -20,6 +20,11 @@ export default function Cadastro({ navigation }: any) {
         return false;
       }
     }
+
+    if (numSecao === 2 && planos.length === 0) {
+      return false;
+    }
+
     return true;
   }
 
@@ -33,7 +38,7 @@ export default function Cadastro({ navigation }: any) {
     } else {
       toast.show({
         title: 'Erro ao avançar',
-        description: 'Preencha todos os campos antes de continuar',
+        description: 'Selecione pelo menos um plano antes de continuar',
         backgroundColor: 'red.500',
       });
     }
