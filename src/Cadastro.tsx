@@ -3,54 +3,53 @@ import { useState } from 'react';
 import Logo from './assets/Logo.png'
 import { Botao } from './componentes/Botao';
 import { EntradaTexto } from './componentes/EntradaTexto';
-import { Titulo } from './componentes/titulo';
+import { Titulo } from './componentes/Titulo';
 import { secoes } from './utils/CadastroEntradaTexto';
 import { cadastrarPaciente } from './servicos/PacienteServico';
 
 export default function Cadastro({ navigation }: any) {
   const [numSecao, setNumSecao] = useState(0);
   const [dados, setDados] = useState({} as any);
-  const [planos, setPlanos] = useState([] as number[]);
-  const toast = useToast();
+  const [planos, setPlanos] = useState([] as number[])
+  const toast = useToast()
 
-  function camposPreenchidos() {
+  function avancarSecao() {
+    if (todosCamposPreenchidos()) {
+      if (numSecao < secoes.length - 1) {
+        setNumSecao(numSecao + 1)
+      }
+      else {
+        console.log(dados)
+        console.log(planos)
+        cadastrar()
+      }
+    }
+    else {
+      toast.show({
+        title: 'Erro ao cadastrar',
+        description: 'Verifique os dados e tente novamente',
+        backgroundColor: 'red.500',
+      });
+    }
+  }
+  function voltarSecao() {
+    if (numSecao > 0) {
+      setNumSecao(numSecao - 1)
+    }
+  }
+
+  function atualizarDados(id: string, valor: string) {
+    setDados({ ...dados, [id]: valor })
+  }
+
+  function todosCamposPreenchidos() {
     const campos = secoes[numSecao]?.entradaTexto || [];
     for (const campo of campos) {
       if (!dados[campo.name]) {
         return false;
       }
     }
-
-    if (numSecao === 2 && planos.length === 0) {
-      return false;
-    }
-
     return true;
-  }
-
-  function avancarSecao() {
-    if (camposPreenchidos()) {
-      if (numSecao < secoes.length - 1) {
-        setNumSecao(numSecao + 1);
-      } else {
-        cadastrar();
-      }
-    } else {
-      toast.show({
-        description: 'Selecione um plano',
-        backgroundColor: 'red.500',
-      });
-    }
-  }
-
-  function voltarSecao() {
-    if (numSecao > 0) {
-      setNumSecao(numSecao - 1);
-    }
-  }
-
-  function atualizarDados(id: string, valor: string) {
-    setDados({ ...dados, [id]: valor });
   }
 
   async function cadastrar() {
@@ -70,21 +69,22 @@ export default function Cadastro({ navigation }: any) {
       possuiPlanoSaude: planos.length > 0,
       planosSaude: planos,
       imagem: dados.imagem
-    });
+    })
 
-    if (resultado) {
-      toast.show({
-        title: 'Erro ao cadastrar',
-        description: 'Verifique os dados e tente novamente',
-        backgroundColor: 'red.500',
-      });
-    } else {
+    if (resultado !== '' && planos.length > 0) {
       toast.show({
         title: 'Cadastro realizado com sucesso',
         description: 'Você já pode fazer login',
         backgroundColor: 'green.500',
-      });
+      })
       navigation.replace('Login');
+    } else {
+      toast.show({
+        title: 'Erro ao cadastrar',
+        description: 'Verifique os dados e tente novamente',
+        backgroundColor: 'red.500',
+      })
+      console.log('Erro ao cadastrar');
     }
   }
 
@@ -124,10 +124,10 @@ export default function Cadastro({ navigation }: any) {
                 onChange={() => {
                   setPlanos((planosAnteriores) => {
                     if (planosAnteriores.includes(checkbox.id)) {
-                      return planosAnteriores.filter((id) => id !== checkbox.id);
+                      return planosAnteriores.filter((id) => id !== checkbox.id)
                     }
-                    return [...planosAnteriores, checkbox.id];
-                  });
+                    return [...planosAnteriores, checkbox.id]
+                  })
                 }}
                 isChecked={planos.includes(checkbox.id)}
               >
@@ -138,7 +138,7 @@ export default function Cadastro({ navigation }: any) {
       </Box>
       {numSecao > 0 && <Botao onPress={() => voltarSecao()} bgColor="gray.400">Voltar</Botao>}
       <Botao onPress={() => avancarSecao()} mt={4} mb={20}>
-        {numSecao == 2 ? 'Finalizar' : 'Avançar'}
+        {numSecao == 2 ? 'Finalizar' : 'Avancar'}
       </Botao>
     </ScrollView>
   );

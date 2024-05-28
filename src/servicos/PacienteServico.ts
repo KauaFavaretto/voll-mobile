@@ -1,7 +1,6 @@
 import { Paciente } from "../interfaces/Paciente";
 import api from "./api";
 
-
 export async function cadastrarPaciente(paciente: Paciente) {
   if (!paciente) return null;
 
@@ -9,10 +8,8 @@ export async function cadastrarPaciente(paciente: Paciente) {
     const resultado = await api.post('/paciente', paciente)
     console.log(resultado.data)
     return resultado.data
-  }
-  catch (error) {
+  } catch (error) {
     console.log(error)
     return null
   }
-
 }
