@@ -2,10 +2,10 @@ import { VStack, Box, ScrollView } from "native-base";
 import { Botao } from "../componentes/Botao";
 import { CardConsulta } from "../componentes/CardConsulta";
 import { EntradaTexto } from "../componentes/EntradaTexto";
-import { Titulo } from "../componentes/Titulo";
+import { Titulo } from "../componentes/titulo";
 
-export default function Explorar(){
-  return(
+export default function Explorar() {
+  return (
     <ScrollView flex={1} bgColor="white">
       <VStack flex={1} alignItems="flex-start" justifyContent="flex-start" p={5}>
         <Box w="100%" borderRadius="lg" p={3} mt={5} shadow="1" borderRightRadius="md">
@@ -23,10 +23,10 @@ export default function Explorar(){
         <Titulo color="blue.500" alignSelf="center">Resultado da Busca</Titulo>
         {[1, 2, 3].map((_, index) => (
           <VStack flex={1} w="100%" alignItems="flex-start" bgColor="white" key={index}>
-            <CardConsulta 
+            <CardConsulta
               especialidade="Cardiologia"
-              foto="https://github.com/robertoSRMJunior.png"
-              nome="Dr. Roberto Moraes"
+              foto='https://github.com/juaomarcelo.png'
+              nome="Dr. João Marcelo"
             />
           </VStack>
         ))}
