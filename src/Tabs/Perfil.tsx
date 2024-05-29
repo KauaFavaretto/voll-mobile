@@ -5,7 +5,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { pegarDadosPaciente } from "../servicos/PacienteServico";
 import { Paciente } from "../interfaces/Paciente";
 import { Botao } from "../componentes/Botao";
-import { jwtDecode } from "jwt-decode";
 
 export default function Perfil({ navigation }: any) {
   const [dadosPaciente, setDadosPaciente] = useState({} as Paciente);
