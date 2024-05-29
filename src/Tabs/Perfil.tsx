@@ -13,7 +13,6 @@ export default function Perfil({ navigation }: any) {
     AsyncStorage.removeItem('token')
     AsyncStorage.removeItem('pacienteId')
     navigation.replace('Login')
-
   }
 
 
