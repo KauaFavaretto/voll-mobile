@@ -2,7 +2,7 @@ import { VStack, Box, ScrollView } from "native-base";
 import { Botao } from "../componentes/Botao";
 import { CardConsulta } from "../componentes/CardConsulta";
 import { EntradaTexto } from "../componentes/EntradaTexto";
-import { Titulo } from "../componentes/Titulo";
+import { Titulo } from "../componentes/titulo";
 import { buscarEspecialistaPorEstado } from "../servicos/EspecialistaServico";
 import { useState } from "react";
 import { agendarConsulta } from "../servicos/ConsultaServico";

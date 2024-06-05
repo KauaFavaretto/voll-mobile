@@ -1,11 +1,13 @@
-import { VStack, Divider, ScrollView } from 'native-base'
+import { VStack, Divider, ScrollView, Toast } from 'native-base'
 import { Botao } from '../componentes/Botao'
 import { CardConsulta } from '../componentes/CardConsulta'
-import { Titulo } from '../componentes/Titulo'
+import { Titulo } from '../componentes/titulo'
 import { useEffect, useState } from 'react'
 import { NavigationProps } from '../@types/navigation'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { pegarConsultasPaciente } from '../servicos/PacienteServico'
+import { cancelarConsulta } from '../servicos/ConsultaServico'
+import { useIsFocused } from '@react-navigation/native'
 
 interface Especialista {
   nome: string;
@@ -23,9 +25,11 @@ interface Consulta {
 export default function Consultas({ navigation }: NavigationProps<'Consultas'>) {
   const [consultasProximas, setConsultasProximas] = useState<Consulta[]>([]);
   const [consultasPassadas, setConsultasPassadas] = useState<Consulta[]>([]);
+  const [recarregar, setRecarregar] = useState(false);
+  const isFocused = useIsFocused();
 
   useEffect(() => {
-    async function pegarConsultas() {
+    async function carregarConsultas() {
       const pacienteId = await AsyncStorage.getItem('pacienteId');
       if (!pacienteId) return;
 
@@ -38,8 +42,24 @@ export default function Consultas({ navigation }: NavigationProps<'Consultas'>) 
       setConsultasProximas(proximas);
       setConsultasPassadas(passadas);
     }
-    pegarConsultas()
-  }, [])
+    carregarConsultas();
+  }, [isFocused, recarregar]);
+
+  async function cancelar(consultaId: string) {
+    const resultado = await cancelarConsulta(consultaId);
+    if (!resultado) {
+      Toast.show({
+        title: 'Consulta cancelada',
+        backgroundColor: 'green.500'
+      });
+      setRecarregar(!recarregar);
+    } else {
+      Toast.show({
+        title: 'Erro ao cancelar',
+        backgroundColor: 'red.500'
+      });
+    }
+  }
 
   return (
     <ScrollView p="5">
@@ -55,6 +75,7 @@ export default function Consultas({ navigation }: NavigationProps<'Consultas'>) 
           foto={consulta?.especialista?.imagem}
           data={consulta?.data}
           foiAgendado
+          onPress={() => cancelar(consulta.id)}
         />
       )}
 
@@ -72,5 +93,5 @@ export default function Consultas({ navigation }: NavigationProps<'Consultas'>) 
         />
       )}
     </ScrollView>
-  )
+  );
 }
