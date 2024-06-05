@@ -29,10 +29,15 @@ export default function Agendamento({ route, navigation }: any) {
         })
     }
 
+    function Back() {
+        navigation.goBack();
+    }
+
     return (
         <VStack flex={1} alignItems="center" justifyContent="center" padding={5}>
             <Input placeholder="Digite a data 10/05/2024 12:23" onChangeText={setData} />
             <Botao onPress={agendar}>Agendar</Botao>
+            <Botao onPress={Back} mt={3}>Voltar</Botao>
         </VStack>
     )
 }
